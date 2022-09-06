@@ -1,8 +1,18 @@
 import { Injectable } from '@nestjs/common';
+import axios, { AxiosInstance } from 'axios';
+import { PokeResponse } from './interfaces/poke-response.interface';
 
 @Injectable()
 export class SeedService {
-  executeSeed() {
-    return `Seed executed`;
+  private readonly axios: AxiosInstance = axios;
+  async executeSeed() {
+    const { data } = await this.axios.get<PokeResponse>(
+      'https://pokeapi.co/api/v2/pokemon?limit=650',
+    );
+    const newData = data.results.map((data) => ({
+      name: data.name,
+      no: Number(data.url.split('/')[6]),
+    }));
+    return newData;
   }
 }

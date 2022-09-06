@@ -7,6 +7,6 @@ export class SeedController {
 
   @Get()
   executeSeed() {
-    return this.seedService.findAll();
+    return this.seedService.executeSeed();
   }
 }
